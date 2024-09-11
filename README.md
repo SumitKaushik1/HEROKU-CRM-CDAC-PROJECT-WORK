@@ -1,8 +1,8 @@
 # HEROKU-CRM-CDAC-PROJECT-WORK
-
+# CDAC-PROJECT-CRM-JSP-JAVABEAN-MYSQL
 
 ## Browser Link
-https://crmpro.us.to/
+https://crm-app-7461b311cf95.herokuapp.com/Welcome.jsp
 
 ## Login Credentials 
 - login id - u1111111111
@@ -19,8 +19,8 @@ This folder contains the source code for the CRM Application.
 ## apache-tomcat-9.0.36   
 This folder contains the apache tomcat server  for the CRM Application.
 
-## Browser Link
-[[screen-capture.webm](https://github.com/SumitKaushik1/CDAC-PROJECT-CRM-JSP-JAVABEAN-MYSQL/assets/110432346/43750252-264c-4305-8d74-949c59417610)](https://crm-app-7461b311cf95.herokuapp.com/Welcome.jsp)
+## Features
+[screen-capture.webm](https://github.com/SumitKaushik1/CDAC-PROJECT-CRM-JSP-JAVABEAN-MYSQL/assets/110432346/43750252-264c-4305-8d74-949c59417610)
 
   ### CRM Application Overview:
    
