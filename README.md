@@ -68,3 +68,65 @@ Reporting and Analytics: The CRM generates reports and provides analytics to gai
 ### Conclusion:
 
 In summary, our CRM application serves as a comprehensive solution for managing customer relationships, optimizing sales processes, and driving business growth. By leveraging the provided details, we create a platform that empowers sales teams to deliver exceptional customer experiences, increase efficiency, and achieve sales targets effectively.</p>
+
+
+## Folder Structure Of The CRM Application Maven Project
+
+When deploying a Java web application on Heroku, especially one built using Maven, you need to ensure that your folder structure is compatible with Heroku’s deployment process. Below is the typical folder structure for deploying a Java-based project (like a web dynamic project) on Heroku.
+
+- Root Directory Structure
+Here is the general folder structure for your project:
+
+
+## Project Structure
+
+```bash
+/my-web-app
+│
+├── /src
+│   ├── /main
+│   │   ├── /java              # Your Java source code
+│   │   ├── /resources         # Application resources (e.g., config files)
+│   │   └── /webapp            # JSP, HTML, CSS, JavaScript, WEB-INF directory
+│   │       ├── /WEB-INF
+│   │       │   ├── web.xml    # Deployment descriptor
+│   │       └── /views         # JSP pages or static resources
+│   └── /test                  # Test source code (JUnit or TestNG tests)
+│
+├── /target                    # Auto-generated files (compiled code, JAR, or WAR)
+│   ├── /dependency
+│   └── my-web-app.war          # Generated WAR file after Maven build
+│
+├── pom.xml                     # Maven configuration file (dependencies, plugins)
+├── Procfile                    # Heroku configuration (how to run your app)
+├── system.properties           # Specifies the Java version
+└── .gitignore                  # Git ignore rules
+`````
+-  Key Components
+-   src/main/java
+This is where your Java source code resides. Place your packages and class files under this directory.
+
+-  src/main/resources
+Any non-code resources (like property files, configuration files, etc.) should be placed in this directory.
+
+- src/main/webapp
+This folder contains your web assets, such as JSP files, static resources (CSS, JavaScript, images), and the WEB-INF directory where you have web.xml (the deployment descriptor).
+
+- WEB-INF: This folder holds web.xml and your compiled classes (once built).
+- pom.xml
+This is your Maven configuration file. It includes all the dependencies, build plugins, and configurations for your project. Make sure it includes all necessary dependencies for running the project on Heroku.
+
+- Procfile
+The Procfile defines how Heroku should run your app. For a web dynamic project, especially if you’re deploying a WAR file, the content typically looks like this:
+
+- web: java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT target/*.war
+- system.properties
+This file specifies the Java version used on Heroku. Example content:
+
+- Copy code
+java.runtime.version=11
+- target/
+This is the Maven build output folder. After running mvn clean install, Maven generates the WAR file here, which will be deployed to Heroku. The WAR file can be found in the target/ directory as my-web-app.war.
+
+- .gitignore
+You should configure the .gitignore file to ignore unnecessary files (such as target/ and *.class files) when pushing your project to Heroku via Git.
