@@ -130,3 +130,126 @@ This is the Maven build output folder. After running mvn clean install, Maven ge
 
 - .gitignore
 You should configure the .gitignore file to ignore unnecessary files (such as target/ and *.class files) when pushing your project to Heroku via Git.
+_________________________________________________________________________________________________________________________________________________________________________________
+
+
+## Build Your Maven Project
+Step 1: Maven Build from IDE
+Right-click on your project in the IDE and select Run As -> Maven Build.
+
+Step 2: Command Line Build
+Open the command prompt in the CRM project folder (where all the source files are located) and run:
+
+```
+mvn clean package
+```
+This will clean the project and create the CRM-0.0.1-SNAPSHOT.war file in the target folder.
+
+Step 3: Clean Unnecessary Files
+To ensure no unwanted dependencies or files remain in the project, right-click on the project in the IDE and select Run As -> Maven Clean.
+
+## Add System Properties and Procfile
+### Add system.properties file
+In your CRM project, create a system.properties file and add the following line to specify the Java version:
+
+````
+java.runtime.version=11
+````
+### Create the Procfile
+Create a file named Procfile in your project root with the following content:
+````
+web: java -jar target/dependency/webapp-runner-9.0.27.1.jar --port $PORT target/CRM-0.0.1-SNAPSHOT.war
+````
+## Update the pom.xml
+### Add the webapp-runner dependency
+Go to the Maven repository, find the correct version of webapp-runner, and add this to your pom.xml:
+
+````
+<dependency>
+    <groupId>com.github.jsimone</groupId>
+    <artifactId>webapp-runner</artifactId>
+    <version>9.0.27.1</version>
+</dependency>
+````
+### Add Maven Plugin to Copy Dependencies
+To ensure dependencies are copied into the target/dependency folder during the build process, add the maven-dependency-plugin:
+
+````
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>3.3.0</version>
+            <executions>
+                <execution>
+                    <id>copy-dependencies</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>copy-dependencies</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>${project.build.directory}/dependency</outputDirectory>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+````
+
+## Resolve Conflicting Dependencies
+Remove Duplicate Tomcat Libraries
+From your mvn dependency:tree output, there are duplicate Jasper libraries causing conflicts. Update your pom.xml to exclude the redundant tomcat-jasper and tomcat-jasper-el libraries:
+
+````
+<dependency>
+    <groupId>com.github.jsimone</groupId>
+    <artifactId>webapp-runner</artifactId>
+    <version>9.0.27.1</version>
+    <exclusions>
+        <exclusion>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jasper</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jasper-el</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+````
+
+Run Maven Commands
+After updating the pom.xml, run:
+
+`````
+mvn clean install
+`````
+This will clean and build your project.
+
+## Run and Deploy
+### Local Testing
+Run the application locally with the following command to ensure it works:
+
+````
+java -jar target/dependency/webapp-runner-9.0.27.1.jar --port 8080 target/CRM-0.0.1-SNAPSHOT.war
+````
+Push to GitHub
+Ensure all changes are pushed to your GitHub repository. Always save (Ctrl + S) after changes.
+
+## Deploy to Heroku
+- Connect to GitHub
+In Heroku, go to your CRM app:
+
+- On the Overview tab, click Deploy.
+Connect your GitHub repository to Heroku.
+Scroll down and deploy the desired branch.
+Check Logs if Errors Occur
+If the application fails to start, check the logs:
+
+- In the Heroku dashboard, go to your CRM app.
+On the right-hand side, click More -> View Logs.
+Use the Heroku logging guide for more details:
+Heroku Logging Documentation.
+This structured approach should help streamline your project deployment while avoiding common pitfalls related to dependency conflicts.
