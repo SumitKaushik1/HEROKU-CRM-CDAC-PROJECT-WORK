@@ -253,4 +253,3 @@ On the right-hand side, click More -> View Logs.
 Use the Heroku logging guide for more details:
 Heroku Logging Documentation.
 This structured approach should help streamline your project deployment while avoiding common pitfalls related to dependency conflicts.
-<br>
